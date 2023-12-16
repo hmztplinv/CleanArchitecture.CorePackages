@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CleanArchitecture.CorePackages.Persistance.Repositories
 {
-    public class Entity<TId>
+    public class Entity<TId>:IEntityTimeStamps
     {
         public TId Id { get; set; }
         public DateTime CreatedDate { get; set; }

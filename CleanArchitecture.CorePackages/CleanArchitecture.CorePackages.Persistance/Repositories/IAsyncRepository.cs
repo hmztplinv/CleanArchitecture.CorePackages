@@ -3,7 +3,7 @@ using System.Reflection.Metadata;
 using CleanArchitecture.CorePackages.Persistance.Repositories;
 using Microsoft.EntityFrameworkCore.Query;
 
-public interface IAsyncRepository<TEntity,TEntityId>:IQueryable<TEntity> where TEntity : Entity<TEntityId>
+public interface IAsyncRepository<TEntity,TEntityId>:IQuery<TEntity> where TEntity : Entity<TEntityId>
 {
     Task<TEntity?> GetAsync
     (

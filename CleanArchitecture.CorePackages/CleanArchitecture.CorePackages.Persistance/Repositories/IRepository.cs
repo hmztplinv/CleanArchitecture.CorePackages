@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using CleanArchitecture.CorePackages.Persistance.Repositories;
 using Microsoft.EntityFrameworkCore.Query;
 
-public interface IRepository<TEntity,TEntityId>:IQueryable<TEntity> where TEntity : Entity<TEntityId>
+public interface IRepository<TEntity,TEntityId>:IQuery<TEntity> where TEntity : Entity<TEntityId>
 {
     TEntity? Get
     (
