@@ -6,28 +6,28 @@ using System.Windows.Markup;
 
 public static class IQueryableDynamicFilterExtensions
 {
-    private static readonly string[] _orders = { "asc", "desc" };
-    private static readonly string[] _logics = { "and", "or" };
-
+    private static readonly string[] _orders = { "asc", "desc" }; // sıralama yönleri
+    private static readonly string[] _logics = { "and", "or" }; // mantıksal operatörler
+    
     private static readonly IDictionary<string,string> _operators=new Dictionary<string, string>
     {
-        {"eq","=="},
-        {"neq","!="},
-        {"lt","<"},
-        {"lte","<="},
-        {"gt",">"},
-        {"gte",">="},
-        {"contains","Contains"},
-        {"doesnotcontain","DoesNotContain"},
-        {"startswith","StartsWith"},
-        {"endswith","EndsWith"},
-        {"isnull","=="},
-        {"isnotnull","!="},
-        {"isempty","=="},
-        {"isnotempty","!="}
+        {"eq","=="}, // equal
+        {"neq","!="}, // not equal
+        {"lt","<"}, // less than
+        {"lte","<="}, // less than or equal
+        {"gt",">"}, // greater than
+        {"gte",">="}, // greater than or equal
+        {"contains","Contains"}, // contains
+        {"doesnotcontain","DoesNotContain"}, // does not contain
+        {"startswith","StartsWith"}, // starts with
+        {"endswith","EndsWith"}, // ends with
+        {"isnull","=="}, // is null
+        {"isnotnull","!="}, // is not null
+        {"isempty","=="}, // is empty
+        {"isnotempty","!="} // is not empty
     };
 
-    public static IQueryable<T> ToDynamic<T>(this IQueryable<T> query, DynamicQuery dynamicQuery)
+    public static IQueryable<T> ToDynamic<T>(this IQueryable<T> query, DynamicQuery dynamicQuery) // IQueryable<T> yi DynamicQuery'e çevirir
     {
         if (dynamicQuery.Filter is not null)
             query = Filter(query, dynamicQuery.Filter);
@@ -37,7 +37,7 @@ public static class IQueryableDynamicFilterExtensions
         return query;
     }
 
-    private static IQueryable<T> Filter<T>(IQueryable<T> queryable,Filter filter)
+    private static IQueryable<T> Filter<T>(IQueryable<T> queryable,Filter filter) // filtrelerin uygulanması
     {
         IList<Filter> filters=GetAllFilters(filter);
         string?[] values=filters.Select(x => x.Value).ToArray();
@@ -47,7 +47,7 @@ public static class IQueryableDynamicFilterExtensions
         return queryable;
     }
 
-    private static IQueryable<T> Sort<T>(IQueryable<T> queryable,IEnumerable<Sort> sorts)
+    private static IQueryable<T> Sort<T>(IQueryable<T> queryable,IEnumerable<Sort> sorts) // sıralamanın uygulanması
     {
         foreach (Sort sort in sorts)
         {
@@ -67,33 +67,33 @@ public static class IQueryableDynamicFilterExtensions
 
     public static IList<Filter> GetAllFilters(Filter filter)
     {
-        IList<Filter> filters=new List<Filter>();
-        GetFilters(filter,filters);
+        IList<Filter> filters=new List<Filter>(); // filtrelerin hepsini alır
+        GetFilters(filter,filters); 
         return filters;
     }
 
-    private static void GetFilters(Filter filter, IList<Filter> filters)
+    private static void GetFilters(Filter filter, IList<Filter> filters) // filtreleri alır
     {
-        filters.Add(filter);
+        filters.Add(filter); // filtrelerin varsa alt filtrelerini de alır
         if (filter.Filters is not null && filter.Filters.Any())
             foreach (Filter f in filter.Filters)
                 GetFilters(f, filters);
     }
 
-    public static string Transform(Filter filter, IList<Filter> filters)
+    public static string Transform(Filter filter, IList<Filter> filters) // filtreleri dönüştürür
     {
         if (string.IsNullOrEmpty(filter.Field))
             throw new ArgumentException("Field is invalid");
         if (string.IsNullOrEmpty(filter.Operator) || !_operators.ContainsKey(filter.Operator.ToLower()))
             throw new ArgumentException("Operator is invalid");
 
-        int index = filters.IndexOf(filter);
-        string comparison = _operators[filter.Operator.ToLower()];
-        StringBuilder where = new();
+        int index = filters.IndexOf(filter); // filtrelerin indexini alır
+        string comparison = _operators[filter.Operator.ToLower()]; // filtrelerin operatörlerini alır
+        StringBuilder where = new(); // filtreleri oluşturur
         if (!string.IsNullOrEmpty(filter.Value))
         {
-            if (filter.Operator.ToLower() == "contains" || filter.Operator.ToLower() == "doesnotcontain")
-                where.Append($"!np({filter.Field}).{comparison}(@{index.ToString()})");
+            if (filter.Operator.ToLower() == "contains" || filter.Operator.ToLower() == "doesnotcontain") // where ile StringBuilder
+                where.Append($"!np({filter.Field}).{comparison}(@{index.ToString()})"); // np: null propagation, null verileri de ver ya da verme
             else if (comparison == "StartsWith" || comparison == "EndsWith" || comparison == "Contains")
                 where.Append($"np({filter.Field}).{comparison}(@{index.ToString()})");
             else

@@ -1,7 +1,7 @@
 public class DynamicQuery
 {
-    public IEnumerable<Sort>? Sort { get; set; }
-    public Filter? Filter { get; set; }
+    public IEnumerable<Sort>? Sort { get; set; } // sıralama
+    public Filter? Filter { get; set; } // filtreleme
 
     public DynamicQuery()
     {

@@ -1,4 +1,4 @@
-public abstract class BasePageableModel
+public abstract class BasePageableModel // abstract yaptık çünkü bu sınıfı new'leyemeyeceğiz
 {
     public int Size { get; set; }
     public int Index { get; set; }

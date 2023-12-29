@@ -1,7 +1,7 @@
 public class Sort
 {
-    public string Field { get; set; }
-    public string Dir { get; set; }
+    public string Field { get; set; } // sıralama hangi alan üzerinde uygulanacak
+    public string Dir { get; set; } // sıralama yönü (asc, desc)
 
     public Sort()
     {
