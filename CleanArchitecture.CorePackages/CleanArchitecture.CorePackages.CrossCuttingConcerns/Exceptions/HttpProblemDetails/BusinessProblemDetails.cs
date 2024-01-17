@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-public class BusinessProblemDetails : ProblemDetails
+public class BusinessProblemDetails : ProblemDetails // ProblemDetails zaten Microsoft.AspNetCore.Mvc içerisinde tanımlı
 {
     public BusinessProblemDetails(string detail)
     {

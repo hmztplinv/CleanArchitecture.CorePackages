@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.1.0" />
+    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CleanArchitecture.CorePackages.CrossCuttingConcerns\CleanArchitecture.CorePackages.CrossCuttingConcerns.csproj" />
     <ProjectReference Include="..\CleanArchitecture.CorePackages.Persistance\CleanArchitecture.CorePackages.Persistance.csproj" />
   </ItemGroup>
 
